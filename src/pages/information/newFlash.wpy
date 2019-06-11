@@ -1,0 +1,23 @@
+<style lang="scss">
+
+</style>
+<template>
+  <view>
+    <newList :msg="dataMsg"></newList>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import NewList from '@/components/test/newsList'
+  export default class NewsFlash extends wepy.page {
+    config = {
+      'navigationBarTitleText': '快讯'
+    }
+    components = {
+      newList: NewList
+    }
+    data = {
+      dataMsg: 'hello wepy.....'
+    }
+  }
+</script>

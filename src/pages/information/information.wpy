@@ -1,0 +1,17 @@
+<style lang="scss">
+
+</style>
+<template>
+  <view>this is Information........</view>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class Information extends wepy.page {
+    config = {
+      'navigationBarTitleText': '资讯'
+    }
+    onLoad() {
+      console.log('Information onLoad......')
+    }
+  }
+</script>

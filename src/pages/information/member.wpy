@@ -1,0 +1,17 @@
+<style lang="scss">
+
+</style>
+<template>
+  <view>this is Member........</view>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class Member extends wepy.page {
+    config = {
+      'navigationBarTitleText': '会员中心'
+    }
+    onLoad() {
+      console.log('Member onLoad......')
+    }
+  }
+</script>

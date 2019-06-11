@@ -1,0 +1,16 @@
+<style lang="scss">
+
+</style>
+<template>
+  <view>
+    <text>{{msg}}</text>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class NewsList extends wepy.component {
+    props = {
+      msg: String
+    }
+  }
+</script>
