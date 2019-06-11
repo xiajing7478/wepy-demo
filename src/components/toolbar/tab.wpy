@@ -1,0 +1,67 @@
+<style lang="less">
+  .tab {
+    color: #7b7b7b;
+    position: fixed;
+    bottom: 0;
+    height: 100rpx;
+    width: 100%;
+    border-top: 1px solid #dad9d6;
+    font-size: 24rpx;
+    white-space: nowrap;
+    .tab_item {
+      &.active {
+        color: #13b113;
+      }
+      display: inline-block;
+      width: 25%;
+      text-align: center;
+    }
+    .icon {
+      width: 60rpx;
+      height: 60rpx;
+      display: block;
+      margin: auto;
+    }
+    .title {
+      padding-top: 6rpx;
+      display: block;
+    }
+  }
+</style>
+<template>
+  <view class="tab">
+    <view class="tab_item tab_message{{active === 0 ? 'active': ''}}" @tap="change(0)">
+      <image class="icon" src="../../images/message{{active === 0 ? '_active': ''}}.png"></image>
+      <text class="title">微信</text>
+    </view>
+    <view class="tab_item tab_message{{active === 1 ? 'active': ''}}" @tap="change(1)">
+      <image class="icon" src="../../images/contact{{active === 1 ? '_active': ''}}.png"></image>
+      <text class="title">通讯录</text>
+    </view>
+    <view class="tab_item tab_message{{active === 2 ? 'active': ''}}" @tap="change(2)">
+      <image class="icon" src="../../images/discovery{{active === 2 ? '_active': ''}}.png"></image>
+      <text class="title">发现</text>
+    </view>
+    <view class="tab_item tab_message{{active === 3 ? 'active': ''}}" @tap="change(3)">
+      <image class="icon" src="../../images/me{{active === 3 ? '_active': ''}}.png"></image>
+      <text class="title">我</text>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class Tab extends wepy.component {
+    components = {
+    }
+    props= {
+      active: {
+        twoWay: true
+      }
+    }
+    methods= {
+      change(index, evt) {
+        this.active = +index
+      }
+    }
+  }
+</script>
