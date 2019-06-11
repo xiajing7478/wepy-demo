@@ -2,11 +2,12 @@
 
 </style>
 <template>
-  <view>
-    <newList :msg="dataMsg"></newList>
+  <view class="container">
+    <newList :lists.sync="lists"></newList>
   </view>
 </template>
 <script>
+  import {request} from '@/api/api'
   import wepy from 'wepy'
   import NewList from '@/components/test/newsList'
   export default class NewsFlash extends wepy.page {
@@ -17,7 +18,16 @@
       newList: NewList
     }
     data = {
-      dataMsg: 'hello wepy.....'
+      lists: [],
+      hasNext: false
+    }
+    onLoad() {
+      request('/news/queryNewsflashList', 'POST', { currentPage: 0, pageSize: 20 }).then(res => {
+        this.lists = res.dataList
+        this.hasNext = res.hasNext
+        console.log(this.lists)
+        this.$apply()
+      })
     }
   }
 </script>

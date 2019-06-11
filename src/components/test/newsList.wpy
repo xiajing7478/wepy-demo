@@ -3,14 +3,19 @@
 </style>
 <template>
   <view>
-    <text>{{msg}}</text>
+    <repeat for="{{lists}}" key="index" item="item" index="index">
+      <view>{{item.contentText}}</view>
+    </repeat>
   </view>
 </template>
 <script>
   import wepy from 'wepy'
   export default class NewsList extends wepy.component {
     props = {
-      msg: String
+      lists: {
+        type: Array,
+        default: []
+      }
     }
   }
 </script>

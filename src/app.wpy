@@ -24,23 +24,23 @@ setStore(store)
 export default class extends wepy.app {
   config = {
     pages: [
+      'pages/information/member',
       'pages/information/newFlash',
       'pages/information/cart',
-      'pages/information/information',
-      'pages/information/member'
+      'pages/information/information'
     ],
     window: {
       backgroundTextStyle: 'light',
-      navigationBarBackgroundColor: '#fff',
+      navigationBarBackgroundColor: '#138cff',
       navigationBarTitleText: 'WeChat',
-      navigationBarTextStyle: 'black',
-      backgroundColor: '#eeeeee'
+      navigationBarTextStyle: 'white',
+      backgroundColor: '#138cff'
     },
     tabBar: {
-      color: '#999999',
-      selectedColor: 'green',
-      backgroundColor: '#e8e8e8',
-      borderStyle: 'black',
+      color: '#757982',
+      selectedColor: '#138cff',
+      backgroundColor: '#fff',
+      borderStyle: 'white',
       list: [
         {
           'pagePath': 'pages/information/newFlash',
@@ -103,6 +103,7 @@ export default class extends wepy.app {
       return this.globalData.userInfo
     }
     wepy.getUserInfo({
+      lang: 'zh_CN',
       success (res) {
         that.globalData.userInfo = res.userInfo
         cb && cb(res.userInfo)

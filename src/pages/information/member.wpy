@@ -1,8 +1,49 @@
-<style lang="scss">
-
+<style lang="scss" scoped>
+  .person-wrap {
+    .user-info {
+      display: flex;
+      background-color:#138cff;
+      text-align: center;
+      align-items: baseline;
+      color: #fff;
+      font-size: 26rpx;
+      padding: 50rpx 0;
+      .center {
+        flex: 1;
+        image {
+          width: 100rpx;
+          height: 100rpx;
+          border-radius: 50%;
+          display: block;
+          margin: 0 auto 30rpx auto;
+        }
+        text {
+          display: block;
+        }
+        text:nth-of-type(2) {
+          padding-top: 10rpx;
+          font-size:28rpx;
+          font-weight:bold;
+        }
+      }
+      .left, .right {
+        width: 25%;
+      }
+    }
+  }
 </style>
 <template>
-  <view>this is Member........</view>
+  <view class="person-wrap">
+    <view class="user-info">
+      <view class="left">left</view>
+      <view class="center">
+        <image src="{{userInfo.avatarUrl}}" alt="pic"></image>
+        <text>{{userInfo.nickName}}</text>
+        <text>{{userInfo.city ? userInfo.city : userInfo.province}}</text>
+      </view>
+      <view class="right">right</view>
+    </view>
+  </view>
 </template>
 <script>
   import wepy from 'wepy'
@@ -12,6 +53,16 @@
     }
     onLoad() {
       console.log('Member onLoad......')
+    }
+    data = {
+      userInfo: {}
+    }
+    onShow() {
+      this.$parent.getUserInfo(res => {
+        this.userInfo = res
+        console.log(this.userInfo)
+        this.$apply()
+      })
     }
   }
 </script>
