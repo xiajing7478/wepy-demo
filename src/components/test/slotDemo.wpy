@@ -1,0 +1,13 @@
+<template>
+  <view class="slotDemo">
+    <slot name="title">默认标题</slot>
+    <slot name="content">默认内容</slot>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class SlotDemo extends wepy.component {
+    data = {
+    }
+  }
+</script>

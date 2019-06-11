@@ -1,0 +1,51 @@
+<style lang="less">
+  .child-wrap {
+    padding: 20px;
+    color: red;
+  }
+</style>
+<template>
+  <view @tap="emitEvent" class="child-wrap">测试$emit</view>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class Child extends wepy.component {
+    props = {
+      title: String,
+      syncTitle: {
+        type: String,
+        default: ''
+      },
+      twoWayTitle: {
+        type: String,
+        default: 'nothing',
+        twoWay: true
+      }
+    }
+    methods = {
+      emitEvent() {
+        this.$emit('childEmit', 123)
+      }
+    }
+    events= {
+      'broadcast-global'(...args) {
+        const event = args[args.length - 1]
+        console.log(`${this.$name} receive ${event.name} from ${event.source.$name}`)
+        console.log('广播事件被触发.............', args)
+      }
+    }
+    onLoad() {
+      // console.log(this.title)
+      // console.log(this.syncTitle)
+      // console.log(this.twoWayTitle)
+      // this.title = 'c-title'
+      // console.log(this.$parent.parentTitle)
+      // this.syncTitle = 'c-title'
+      // this.$apply()
+      // console.log(this.$parent.parentTitle) // p-title
+      // this.twoWayTitle = 'c-title'
+      // this.$apply()
+      // console.log(this.$parent.parentTitle) // 'c-title'
+    }
+  }
+</script>

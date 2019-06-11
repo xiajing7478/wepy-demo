@@ -1,0 +1,25 @@
+<template>
+  <view>
+    <text>事件测试</text>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class Events extends wepy.component {
+    data = {
+      msg: 'events 事件'
+    }
+    methods = {
+      invokeEvents(...args) {
+        console.log('事件被触发.............', args)
+      }
+    }
+    events= {
+      'broadcast-global'(...args) {
+        const event = args[args.length - 1]
+        console.log(`${this.$name} receive ${event.name} from ${event.source.$name}`)
+        console.log('广播事件被触发.............', args)
+      }
+    }
+  }
+</script>

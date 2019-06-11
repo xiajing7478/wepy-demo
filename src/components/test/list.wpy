@@ -1,0 +1,36 @@
+<style lang="less">
+  .myList {
+    color: green;
+  }
+</style>
+<template>
+  <view>
+    <!--<block wx:for-items="{{lists}}" wx:for-index="index" wx:for-item="item"-->
+    <!--wx:key="id">-->
+      <!--<view>-->
+        <!--<text class="myList">{{item.name}}</text>-->
+      <!--</view>-->
+    <!--</block>-->
+    <repeat for="{{lists}}" key="index" item="item" index="index">
+      <view>
+        <text>{{item.name}}</text>
+      </view>
+    </repeat>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class List extends wepy.component {
+    data = {
+    }
+    props= {
+      lists: {
+        type: Array,
+        default: []
+      }
+    }
+    onLoad() {
+      console.log('go....................')
+    }
+  }
+</script>
