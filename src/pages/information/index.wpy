@@ -1,4 +1,4 @@
-<style lang="less">
+<style lang="scss">
 
 </style>
 <template>
@@ -22,8 +22,8 @@
 </template>
 <script>
   import wepy from 'wepy'
-  import Toast from 'wepy-com-toast'
-  import MixinTest from '@/mixins/mixinsDemo'
+  // import Toast from 'wepy-com-toast'
+  // import MixinTest from '@/mixins/mixinsDemo'
   import Message from '@/components/toolbar/message'
   import Contact from '@/components/toolbar/contact'
   import Me from '@/components/toolbar/me'
@@ -39,10 +39,8 @@
       Contact,
       Me,
       Discovery,
-      Tab,
-      toast: Toast
+      Tab
     };
-    mixins = [MixinTest]
     data = {
       currentTab: 0
     };
@@ -51,64 +49,32 @@
     watch= {
     }
     methods = {
-      handleDelItem(itemData) {
-        this.lists.forEach((item, index) => {
-          if (item.id === itemData.id) {
-            this.lists.splice(index, 1)
-          }
-        })
-        console.log(itemData)
-      },
-      tapMixin() {
-        console.log('this is index tap mixin...........')
-      },
-      selfEmit(...args) {
-        debugger
-        console.log(...args)
-      },
-      broadcastEvents() {
-        this.$broadcast('broadcast-global', 1, 2, 3, 4)
-      },
-      tapEvent() {
-        console.log('do noting from ' + this.normalTitle)
-      },
-      addList() {
-        this.lists.push({
-          id: 7,
-          name: 'zhangqin',
-          age: 18
-        })
-        this.$invoke('Events', 'invokeEvents', 555, 444)
-      },
-      toast() {
-        this.$invoke('toast', 'show', {
-          title: '自定义标题',
-          img: 'https://raw.githubusercontent.com/kiinlam/wetoast/master/images/star.png'
-        }).then(res => {
-          console.log('toast done .....')
-          console.log(res)
-        })
-      },
-      request() {
-        let i = 10
-        const map = ['MA==', 'MQo=', 'Mg==', 'Mw==', 'NA==', 'NQ==', 'Ng==', 'Nw==', 'OA==', 'OQ==']
-        while (i--) {
-          wepy.request({
-            url: 'https://www.madcoder.cn/tests/sleep.php?time=1&t=css&c=' + map[i] + '&i=' + i,
-            success: (d) => {
-              this.netrst += d.data + '.'
-              this.$apply()
-            }
-          })
-        }
-      }
+      // toast() {
+      //   this.$invoke('toast', 'show', {
+      //     title: '自定义标题',
+      //     img: 'https://raw.githubusercontent.com/kiinlam/wetoast/master/images/star.png'
+      //   }).then(res => {
+      //     console.log('toast done .....')
+      //     console.log(res)
+      //   })
+      // },
+      // request() {
+      //   let i = 10
+      //   const map = ['MA==', 'MQo=', 'Mg==', 'Mw==', 'NA==', 'NQ==', 'Ng==', 'Nw==', 'OA==', 'OQ==']
+      //   while (i--) {
+      //     wepy.request({
+      //       url: 'https://www.madcoder.cn/tests/sleep.php?time=1&t=css&c=' + map[i] + '&i=' + i,
+      //       success: (d) => {
+      //         this.netrst += d.data + '.'
+      //         this.$apply()
+      //       }
+      //     })
+      //   }
+      // }
     };
     // WePY组件事件处理函数对象，存放响应组件之间通过$broadcast、
     // $emit、$invoke所传递的事件的函数
     events = {
-      childEmit(arg) {
-        console.log(arg)
-      }
     };
     // 生命周期函数
     onLoad() {

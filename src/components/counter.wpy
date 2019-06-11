@@ -73,14 +73,12 @@
 
     methods = {
       plus () {
-        debugger
         this.num = this.num + 1
         console.log(this.$name + ' plus tap')
 
         this.$emit('index-emit', 1, 2, 3)
       },
       minus (...args) {
-        debugger
         this.num = this.num - 1
         console.log(this.$name + ' minus tap')
         console.log('args', args)

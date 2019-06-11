@@ -221,7 +221,6 @@
         }
       },
       counterEmit (...args) {
-        debugger
         let $event = args[args.length - 1]
         console.log(`${this.$name} receive ${$event.name} from ${$event.source.$name}`)
       }
@@ -230,14 +229,12 @@
     // 声明组件之间的事件处理函数
     events = {
       'index-emit': (...args) => {
-        debugger
         let $event = args[args.length - 1]
         console.log(`${this.$name} receive ${$event.name} from ${$event.source.$name}`)
       }
     }
 
     onLoad() {
-      // debugger
       let self = this
       this.$parent.getUserInfo(function (userInfo) {
         if (userInfo) {

@@ -1,12 +1,14 @@
-<style lang="less">
+<style lang="scss">
   .tab {
     color: #7b7b7b;
     position: fixed;
     bottom: 0;
+    left: 0;
     height: 100rpx;
     width: 100%;
     border-top: 1px solid #dad9d6;
     font-size: 24rpx;
+    background-color: #f0eff5;
     white-space: nowrap;
     .tab_item {
       &.active {

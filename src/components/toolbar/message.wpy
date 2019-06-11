@@ -1,13 +1,38 @@
+<style lang="scss">
+  .zixun-wrapper {
+    padding: 20rpx;
+    .pad {
+      padding-bottom: 24rpx;
+      line-height: 40rpx;
+    }
+  }
+</style>
 <template>
-  <view class="me">
-    消息列表界面
+  <view class="zixun-wrapper">
+    <repeat for="{{lists}}" key="index" item="item" index="index">
+      <view class="pad">
+        {{item.contentText}}
+      </view>
+    </repeat>
   </view>
 </template>
 <script>
   import wepy from 'wepy'
+  import { request } from '@/api/api'
   export default class Message extends wepy.component {
+    data= {
+      lists: []
+    }
     components = {
     }
-    methods= {}
+    methods= {
+    }
+    onLoad() {
+      request('/news/queryNewsflashList', 'POST', { currentPage: 0, pageSize: 20 }).then(res => {
+        this.lists = res.dataList
+        console.log(this.lists)
+        this.$apply()
+      })
+    }
   }
 </script>

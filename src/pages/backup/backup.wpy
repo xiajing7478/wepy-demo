@@ -131,7 +131,6 @@
         console.log('this is index tap mixin...........')
       },
       selfEmit(...args) {
-        debugger
         console.log(...args)
       },
       broadcastEvents() {
@@ -175,7 +174,6 @@
     // $emit、$invoke所传递的事件的函数
     events = {
       childEmit(arg) {
-        debugger
         console.log(arg)
       }
     };
