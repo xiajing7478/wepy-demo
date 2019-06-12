@@ -1,13 +1,13 @@
 <style lang="scss" scoped>
   .person-wrap {
+    font-size: 26rpx;
     .user-info {
       display: flex;
       background-color:#138cff;
       text-align: center;
       align-items: baseline;
       color: #fff;
-      font-size: 26rpx;
-      padding: 50rpx 0;
+      padding: 38rpx 0;
       .center {
         flex: 1;
         image {
@@ -21,13 +21,28 @@
           display: block;
         }
         text:nth-of-type(2) {
-          padding-top: 10rpx;
-          font-size:28rpx;
-          font-weight:bold;
+          padding-top: 16rpx;
+          font-size: 28rpx;
+          font-weight: bold;
         }
       }
       .left, .right {
         width: 25%;
+      }
+    }
+    .user-menu {
+      .item {
+        padding: 30rpx;
+        display: flex;
+        height: 40rpx;
+        line-height: 40rpx;
+        border-bottom: 2rpx solid #e8e8e8;
+        .icon {
+          margin-right: 20rpx;
+          color:#138cff;
+          height: 50rpx;
+          width: 50rpx;
+        }
       }
     }
   }
@@ -43,6 +58,14 @@
       </view>
       <view class="right">right</view>
     </view>
+    <view class="user-menu">
+      <repeat for="{{userList}}" key="index" item="item" index="index">
+        <view class="item">
+          <view class="icon iconfont {{item.icon}}"></view>
+          <text>{{item.name}}</text>
+        </view>
+      </repeat>
+    </view>
   </view>
 </template>
 <script>
@@ -55,7 +78,16 @@
       console.log('Member onLoad......')
     }
     data = {
-      userInfo: {}
+      userInfo: {},
+      userList: [
+        { name: '计划统计', path: './me/planT', icon: 'icon-jihua' },
+        { name: '账本统计', path: './me/billT', icon: 'icon-zhangben' },
+        { name: '开心猫', path: './index/index', icon: 'icon-lanmao' },
+        { name: '测试猫', path: './testYun/index', icon: 'icon-fenxiang' },
+        { name: '意见反馈', path: 'contact', icon: 'icon-yijianfankui' },
+        { name: '更新日志', path: './me/edit', icon: 'icon-gengxinrizhi' },
+        { name: '关于', path: './me/about', icon: 'icon-guanyu' }
+      ]
     }
     onShow() {
       this.$parent.getUserInfo(res => {

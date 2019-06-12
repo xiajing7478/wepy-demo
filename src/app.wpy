@@ -1,4 +1,5 @@
 <style lang="scss">
+ @import "./font/iconfont.less";
 .container {
   height: 100%;
   display: flex;
@@ -40,7 +41,7 @@ export default class extends wepy.app {
       color: '#757982',
       selectedColor: '#138cff',
       backgroundColor: '#fff',
-      borderStyle: 'white',
+      borderStyle: '#e8e8e8',
       list: [
         {
           'pagePath': 'pages/information/newFlash',
