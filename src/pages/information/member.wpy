@@ -28,6 +28,14 @@
       }
       .left, .right {
         width: 25%;
+        text {
+          display: block;
+        }
+        text:nth-of-type(2) {
+          padding-top: 16rpx;
+          font-size: 28rpx;
+          font-weight: bold;
+        }
       }
     }
     .user-menu {
@@ -37,6 +45,7 @@
         height: 40rpx;
         line-height: 40rpx;
         border-bottom: 2rpx solid #e8e8e8;
+        transition: background-color 0.3s;
         .icon {
           margin-right: 20rpx;
           color:#138cff;
@@ -50,17 +59,23 @@
 <template>
   <view class="person-wrap">
     <view class="user-info">
-      <view class="left">left</view>
+      <view class="left">
+        <text>资产</text>
+        <text>{{asset}} 元</text>
+      </view>
       <view class="center">
         <image src="{{userInfo.avatarUrl}}" alt="pic"></image>
         <text>{{userInfo.nickName}}</text>
         <text>{{userInfo.city ? userInfo.city : userInfo.province}}</text>
       </view>
-      <view class="right">right</view>
+      <view class="right">
+        <text>计划</text>
+        <text>{{hours}} 小时</text>
+      </view>
     </view>
     <view class="user-menu">
       <repeat for="{{userList}}" key="index" item="item" index="index">
-        <view class="item">
+        <view class="item" @tap="goUrl({{item.path}})">
           <view class="icon iconfont {{item.icon}}"></view>
           <text>{{item.name}}</text>
         </view>
@@ -78,6 +93,8 @@
       console.log('Member onLoad......')
     }
     data = {
+      asset: 0,
+      hours: 0,
       userInfo: {},
       userList: [
         { name: '计划统计', path: './me/planT', icon: 'icon-jihua' },
@@ -86,8 +103,13 @@
         { name: '测试猫', path: './testYun/index', icon: 'icon-fenxiang' },
         { name: '意见反馈', path: 'contact', icon: 'icon-yijianfankui' },
         { name: '更新日志', path: './me/edit', icon: 'icon-gengxinrizhi' },
-        { name: '关于', path: './me/about', icon: 'icon-guanyu' }
+        { name: '关于', path: '../me/about', icon: 'icon-guanyu' }
       ]
+    }
+    methods = {
+      goUrl(url) {
+        this.$navigate(url)
+      }
     }
     onShow() {
       this.$parent.getUserInfo(res => {

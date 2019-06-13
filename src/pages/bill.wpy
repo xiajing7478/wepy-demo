@@ -1,0 +1,61 @@
+<style lang="scss">
+
+</style>
+<template>
+  <view class="bill-wrap">
+    <view class="calender">
+      <text>{{calenderArr[0]}} 年</text>
+      <picker mode="date" value="{{date}}" fields="month" start="2015-01-01" end="2015-01-01"
+              @change="onDateChange">
+          <view class="picker">
+            <text>{{calenderArr[1]}}</text>
+            <view class="iconfont icon-pulldown"></view>
+          </view>
+      </picker>
+    </view>
+    <view class="income">
+      <text>收入</text>
+      <text>{{moneyStat.income}}</text>
+    </view>
+    <view class="output">
+      <text>支出</text>
+      <text class="bold">{{ moneyStat.output }}</text>
+    </view>
+  </view>
+</template>
+<script>
+  // getSystem
+  import { formatTime } from '@/utils'
+  import wepy from 'wepy'
+  export default class Bill extends wepy.page {
+    data = {
+      calenderArr: [], // 年月
+      moneyStat: {
+        income: '',
+        output: ''
+      }
+    }
+    methods = {
+      onDateChange(e) {
+        this.calenderArr = e.detail.value.split('-')
+        this.$apply()
+      },
+      getBillDeatailList() {
+        const storageData = wx.getStorageSync('payList')
+        if (!storageData) {
+          return
+        }
+        console.log('账单页面激活...............')
+      }
+    }
+    onLoad() {
+      this.calenderArr = formatTime(new Date()).slice(0, 2)
+      // const res = getSystem()
+      this.$apply()
+      // console.log(res)
+    }
+    onShow() {
+      this.methods.getBillDeatailList.call(this)
+    }
+  }
+</script>

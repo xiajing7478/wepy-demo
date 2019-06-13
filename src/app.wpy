@@ -25,10 +25,11 @@ setStore(store)
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/information/member',
       'pages/information/newFlash',
-      'pages/information/cart',
-      'pages/information/information'
+      'pages/bill',
+      'pages/information/information',
+      'pages/information/member',
+      'pages/me/about'
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -50,10 +51,10 @@ export default class extends wepy.app {
           'selectedIconPath': 'images/message_active.png'
         },
         {
-          'pagePath': 'pages/information/cart',
-          'text': '购物车',
-          'iconPath': 'images/discovery.png',
-          'selectedIconPath': 'images/discovery_active.png'
+          'pagePath': 'pages/bill',
+          'text': '账本',
+          'iconPath': 'images/tabbar/bill.png',
+          'selectedIconPath': 'images/tabbar/bill-on.png'
         },
         {
           'pagePath': 'pages/information/information',

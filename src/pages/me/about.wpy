@@ -1,0 +1,11 @@
+<template class="me-wrapper">
+  <view>about me</view>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class AboutMe extends wepy.page {
+    config = {
+      navigationBarTitleText: '关于我'
+    }
+  }
+</script>
