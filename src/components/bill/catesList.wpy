@@ -1,0 +1,82 @@
+<style lang="scss">
+  .scroll-box {
+    height: 640rpx;
+    .box {
+      display: flex;
+      flex-wrap: wrap;
+      .item {
+        display: flex;
+        flex-direction: column;
+        padding-bottom: 20rpx;
+        height: 130rpx;
+        text-align: center;
+        width: 16.66%;
+      }
+      .showDiv {
+        width: 60rpx;
+        height: 60rpx;
+        line-height: 52rpx;
+        background-color: #fff;
+        margin:8rpx auto 0rpx 28rpx;
+        i {
+          color: #8ac1f4;
+        }
+        text {
+          font-size: 24rpx;
+          color:#666;
+        }
+      }
+      .active{
+        .iconfont{
+          color: #fff;
+        }
+        text{
+          color: #138cff;
+        }
+        .showDiv{
+          width: 60rpx;
+          height: 60rpx;
+          border-radius:50%;
+          background-color: #138cff
+        }
+      }
+    }
+  }
+</style>
+<template>
+  <scroll-view class="scroll-box" scroll-y>
+    <view class="box">
+      <repeat for="{{lists}}" index="index" key="index" item="item">
+        <view class="item {{ cateType == item.type && cateId == item.cateId ? 'active' : '' }}"
+              @tap="selectCate({{item}})">
+          <view class="showDiv">
+            <i class="iconfont icon-{{ item.type }}"></i>
+          </view>
+          <text>{{ item.cateName }}</text>
+        </view>
+      </repeat>
+    </view>
+  </scroll-view>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class CatesList extends wepy.component {
+    data = {
+      cateType: '',
+      cateId: ''
+    }
+    methods = {
+      selectCate(item) {
+        this.cateType = item.type
+        this.cateId = item.cateId
+        // this.$emit('selectedCate')
+      }
+    }
+    props = {
+      lists: {
+        type: Array,
+        default: []
+      }
+    }
+  }
+</script>

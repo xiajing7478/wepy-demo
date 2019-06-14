@@ -1,5 +1,9 @@
 <style lang="scss">
  @import "./font/iconfont.less";
+ @import "./font/main.scss";
+ [class*="-wrap"] {
+  font-size: 28rpx;
+ }
 .container {
   height: 100%;
   display: flex;
@@ -25,8 +29,9 @@ setStore(store)
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/information/newFlash',
+      'pages/bill/add',
       'pages/bill',
+      'pages/information/newFlash',
       'pages/information/information',
       'pages/information/member',
       'pages/me/about'
@@ -111,6 +116,11 @@ export default class extends wepy.app {
         cb && cb(res.userInfo)
       }
     })
+  }
+
+  // 统一跳转
+  goUrl(url) {
+    wx.navigateTo({url})
   }
 }
 </script>

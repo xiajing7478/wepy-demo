@@ -108,6 +108,8 @@
     }
     methods = {
       goUrl(url) {
+        // console.log(this)
+        // debugger
         this.$navigate(url)
       }
     }

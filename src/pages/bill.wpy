@@ -1,25 +1,69 @@
-<style lang="scss">
-
+<style lang="scss" scoped>
+  .bill-wrap {
+    .bill-summary {
+      display: flex;
+      background-color:#138cff;
+      color: #fff;
+      padding: 20rpx 0;
+      justify-content: space-around;
+      .calender {
+        .picker {
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+        }
+      }
+      .income, .output {
+        .bold {
+          display: block;
+          font-weight: bold;
+        }
+      }
+      .size {
+        font-size: 36rpx;
+      }
+    }
+    .bill-plus {
+      position: fixed;
+      right: 30rpx;
+      bottom: 30rpx;
+      height: 100rpx;
+      width: 100rpx;
+      background-color:#138cff;
+      line-height: 100rpx;
+      border-radius: 50%;
+      text-align: center;
+      color: #fff;
+    }
+  }
 </style>
 <template>
   <view class="bill-wrap">
-    <view class="calender">
-      <text>{{calenderArr[0]}} 年</text>
-      <picker mode="date" value="{{date}}" fields="month" start="2015-01-01" end="2015-01-01"
-              @change="onDateChange">
-          <view class="picker">
-            <text>{{calenderArr[1]}}</text>
+    <view class="bill-summary">
+      <view class="calender">
+        <text>{{calenderArr[0]}} 年</text>
+        <picker mode="date" value="{{date}}" fields="month" start="2015-01-01" end="2015-01-01"
+                @change="onDateChange">
+          <view class="picker m_padTop">
+            <text class="size">{{calenderArr[1]}}</text>
             <view class="iconfont icon-pulldown"></view>
           </view>
-      </picker>
+        </picker>
+      </view>
+      <view class="income">
+        <text>收入</text>
+        <text class="bold m_padTop size">{{ moneyStat.income }}元</text>
+      </view>
+      <view class="output">
+        <text>支出</text>
+        <text class="bold m_padTop size">{{ moneyStat.output }}元</text>
+      </view>
     </view>
-    <view class="income">
-      <text>收入</text>
-      <text>{{moneyStat.income}}</text>
+    <view class="bill-detail">
+
     </view>
-    <view class="output">
-      <text>支出</text>
-      <text class="bold">{{ moneyStat.output }}</text>
+    <view class="bill-plus" @tap="gotoUrl('./bill/add')">
+      <text>记</text>
     </view>
   </view>
 </template>
@@ -28,11 +72,14 @@
   import { formatTime } from '@/utils'
   import wepy from 'wepy'
   export default class Bill extends wepy.page {
+    config = {
+      navigationBarTitleText: '账本'
+    }
     data = {
       calenderArr: [], // 年月
       moneyStat: {
-        income: '',
-        output: ''
+        income: 0,
+        output: 0
       }
     }
     methods = {
@@ -46,6 +93,9 @@
           return
         }
         console.log('账单页面激活...............')
+      },
+      gotoUrl(url) {
+        this.$parent.goUrl(url)
       }
     }
     onLoad() {

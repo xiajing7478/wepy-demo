@@ -1,0 +1,133 @@
+<style lang="scss">
+  @import "../../font/main.scss";
+  $radius: 6rpx;
+  .account-wrap {
+    .typebar {
+      display: flex;
+      width: 50%;
+      margin: 0 auto;
+      padding: 30rpx 0;
+      text-align: center;
+      .active {
+        background-color: $color;
+        color: #fff;
+      }
+      view {
+        width: 50%;
+        height: 60rpx;
+        line-height: 60rpx;
+        border: 2rpx solid $color;
+        color: $color;
+      }
+      .firstChild {
+        border-bottom-left-radius: $radius;
+        border-top-left-radius: $radius;
+      }
+      .secondChild {
+        border-bottom-right-radius: $radius;
+        border-top-right-radius: $radius;
+      }
+    }
+    .account-form {
+      padding: 0 40rpx;
+      .line {
+        border-bottom: 2rpx solid #e8e8e8;
+      }
+      input {
+        height: 100rpx;
+        line-height: 100rpx;
+      }
+      .money {
+        position: relative;
+        .money-icon {
+          position: absolute;
+          top: 25rpx;
+          font-size: 36rpx;
+        }
+        .moneyNum {
+          padding-left: 40rpx;
+        }
+      }
+      .btnGroup {
+        display: flex;
+        padding-top: 40rpx;
+        view {
+          height: 60rpx;
+          line-height: 60rpx;
+          width: 150rpx;
+          text-align: center;
+          border-radius: 6rpx;
+        }
+        .btnOk {
+          background-color: $color;
+          color: #fff;
+        }
+        .btnCancel {
+          margin-left: 40rpx;
+          background-color: #f8f8f8;
+        }
+      }
+    }
+
+    .account-cate {
+      margin-top: 40rpx;
+      padding: 30rpx;
+      border-top: 4rpx solid $color;
+    }
+  }
+</style>
+<template>
+  <view class="account-wrap">
+    <view class="typebar">
+      <view class="{{bill.typeId === '1' ? 'active' : ''}} firstChild" @tap="toggleType(1)">
+        <text>支出</text>
+      </view>
+      <view class="{{bill.typeId === '2' ? 'active' : ''}} secondChild" @tap="toggleType(2)">
+        <text>收入</text>
+      </view>
+    </view>
+
+    <view class="account-form">
+      <view class="money">
+        <view class="money-icon">￥</view>
+        <input class="line moneyNum" type="digit" placeholder="请输入金额"/>
+      </view>
+      <view class="remark">
+        <input class="line" type="text" placeholder="请输入备注信息"/>
+      </view>
+      <view class="btnGroup">
+        <view class="btnOk"><text>确定</text></view>
+        <view class="btnCancel"><text>取消</text></view>
+      </view>
+    </view>
+
+    <view class="account-cate">
+      <cartsList :lists.sync="cateList"></cartsList>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import CartsList from '@/components/bill/catesList'
+  // incomeCateList
+  import { payCateList } from '@/utils/catesConfig'
+  export default class BillAdd extends wepy.page {
+    config = {
+      navigationBarTitleText: '记账'
+    }
+    components = {
+      cartsList: CartsList
+    }
+    data = {
+      bill: {
+        typeId: '1'
+      },
+      cateList: payCateList
+    }
+    methods = {
+      toggleType(val) {
+        console.log(val)
+      }
+    }
+  }
+</script>
