@@ -90,19 +90,20 @@
     <view class="account-form">
       <view class="money">
         <view class="money-icon">￥</view>
-        <input class="line moneyNum" type="digit" placeholder="请输入金额"/>
+        <input @blur="bindBlurMoney" class="line moneyNum" type="digit"
+               placeholder="请输入金额" value="{{bill.typeId === '1' ? form.money : form.getmoney}}"/>
       </view>
       <view class="remark">
         <input class="line" type="text" placeholder="请输入备注信息"/>
       </view>
       <view class="btnGroup">
-        <view class="btnOk"><text>确定</text></view>
-        <view class="btnCancel"><text>取消</text></view>
+        <view @tap="onAdd" class="btnOk"><text>确定</text></view>
+        <view @tap="onCancel" class="btnCancel"><text>取消</text></view>
       </view>
     </view>
 
     <view class="account-cate">
-      <cartsList :lists.sync="cateList"></cartsList>
+      <cartsList :lists.sync="cateList" @selectedCate.use="getCate"></cartsList>
     </view>
   </view>
 </template>
@@ -111,6 +112,7 @@
   import CartsList from '@/components/bill/catesList'
   // incomeCateList
   import { payCateList } from '@/utils/catesConfig'
+  import { isNumber, formatTime } from '@/utils/index'
   export default class BillAdd extends wepy.page {
     config = {
       navigationBarTitleText: '记账'
@@ -119,14 +121,80 @@
       cartsList: CartsList
     }
     data = {
+      mount: '',
       bill: {
         typeId: '1'
+      },
+      form: {
+        cateType: '',
+        cateId: '',
+        money: null,
+        getmoney: null,
+        remark: '',
+        getDate: '',
+        title: ''
       },
       cateList: payCateList
     }
     methods = {
+      onAdd() { // 确认记账
+        if (!parseFloat(this.mount) || !isNumber(this.mount)) {
+          this.methods.showTitle.call(this, '请输入正确的金额')
+          return false
+        }
+        if (!this.form.cateType) {
+          this.methods.showTitle.call(this, '不要忘记消费类别')
+          return false
+        }
+        if (this.bill.typeId === '1') {
+          this.form.money = parseFloat(this.mount)
+        }
+        if (this.bill.typeId === '2') {
+          this.form.getmoney = parseFloat(this.mount)
+        }
+        this.form.getDate = formatTime(new Date()).slice(0, 3)
+        let self = this
+        try {
+          const res = wx.getStorageSync('payList')
+          if (res) {
+            res.push(this.form)
+            wx.setStorage({
+              key: 'payList',
+              data: res
+            })
+          } else {
+            wx.setStorage({
+              key: 'payList',
+              data: self.form
+            })
+            this.methods.showTitle('已保存这笔啦')
+          }
+        } catch (e) {
+          this.methods.showTitle.call(this, '程序出错啦')
+        }
+      },
+      onCancel() {
+
+      },
+      bindBlurMoney(e) {
+        const val = this.mount = e.detail.value.trim()
+        if (this.bill.typeId === '1') {
+          this.form.money = val
+        }
+        if (this.bill.typeId === '2') {
+          this.form.getmoney = val
+        }
+      },
       toggleType(val) {
+        if (val === '1') {
+          this.bill.typeId = val
+        } else {
+          this.bill.typeId = val
+        }
         console.log(val)
+      },
+      showTitle(msg) {
+        this.$parent.showGlobalToast(msg)
       }
     }
   }

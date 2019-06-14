@@ -32,7 +32,13 @@ function formatNumber(n) {
   return n[1] ? n : '0' + n
 }
 
+const isNumber = (num) => {
+  const regExp = /^\d+(\.\d+)?$/
+  return regExp.test(num)
+}
+
 module.exports = {
   getSystem,
-  formatTime
+  formatTime,
+  isNumber
 }

@@ -122,5 +122,12 @@ export default class extends wepy.app {
   goUrl(url) {
     wx.navigateTo({url})
   }
+  // global toast
+  showGlobalToast(msg) {
+    debugger
+    wx.showToast({
+      title: msg
+    })
+  }
 }
 </script>

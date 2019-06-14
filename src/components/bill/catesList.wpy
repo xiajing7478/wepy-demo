@@ -69,7 +69,7 @@
       selectCate(item) {
         this.cateType = item.type
         this.cateId = item.cateId
-        // this.$emit('selectedCate')
+        this.$emit('selectedCate', item)
       }
     }
     props = {
