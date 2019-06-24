@@ -93,6 +93,27 @@
           return
         }
         console.log('账单页面激活...............')
+        const forYearData = this.methods.getBillDatas(storageData)
+        console.log(forYearData)
+      },
+      getBillDatas(lists) {
+        let total = {}
+        lists.map((item, index) => {
+          let date = `${item.getDate[0]}-${item.getDate[1]}`
+          if (!total[date]) {
+            total[date] = {
+              income: null,
+              pay: null,
+              list: []
+            }
+          }
+          let adds = item.getmoney ? item.getmoney : 0
+          let calcs = item.money ? item.money : 0
+          total[date].income = total[date].income + adds
+          total[date].pay = total[date].pay + calcs
+          total[date].list.push(item)
+        })
+        return total
       },
       gotoUrl(url) {
         this.$parent.goUrl(url)

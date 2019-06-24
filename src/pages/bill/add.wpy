@@ -94,7 +94,7 @@
                placeholder="请输入金额" value="{{bill.typeId === '1' ? form.money : form.getmoney}}"/>
       </view>
       <view class="remark">
-        <input class="line" type="text" placeholder="请输入备注信息"/>
+        <input @blur="bindBlurRemark" class="line" type="text" placeholder="请输入备注信息"/>
       </view>
       <view class="btnGroup">
         <view @tap="onAdd" class="btnOk"><text>确定</text></view>
@@ -103,15 +103,14 @@
     </view>
 
     <view class="account-cate">
-      <cartsList :lists.sync="cateList" @selectedCate.use="getCate"></cartsList>
+      <cartsList :lists.sync="cateList" @selectedCate.user="getCate"></cartsList>
     </view>
   </view>
 </template>
 <script>
   import wepy from 'wepy'
   import CartsList from '@/components/bill/catesList'
-  // incomeCateList
-  import { payCateList } from '@/utils/catesConfig'
+  import { payCateList, incomeCateList } from '@/utils/catesConfig'
   import { isNumber, formatTime } from '@/utils/index'
   export default class BillAdd extends wepy.page {
     config = {
@@ -142,10 +141,16 @@
           this.methods.showTitle.call(this, '请输入正确的金额')
           return false
         }
+        // if (parseFloat(this.mount) <= 0) {
+        //   const title = this.bill.typeId === '1' ? '没花钱不能记哦' : '没收钱不能记哦'
+        //   this.methods.showTitle.call(this, title)
+        //   return false
+        // }
         if (!this.form.cateType) {
           this.methods.showTitle.call(this, '不要忘记消费类别')
           return false
         }
+        const getForm = []
         if (this.bill.typeId === '1') {
           this.form.money = parseFloat(this.mount)
         }
@@ -153,7 +158,8 @@
           this.form.getmoney = parseFloat(this.mount)
         }
         this.form.getDate = formatTime(new Date()).slice(0, 3)
-        let self = this
+        getForm.push(this.form)
+        // let self = this
         try {
           const res = wx.getStorageSync('payList')
           if (res) {
@@ -165,9 +171,9 @@
           } else {
             wx.setStorage({
               key: 'payList',
-              data: self.form
+              data: getForm
             })
-            this.methods.showTitle('已保存这笔啦')
+            this.methods.showTitle(this, '已保存这笔啦')
           }
         } catch (e) {
           this.methods.showTitle.call(this, '程序出错啦')
@@ -185,13 +191,27 @@
           this.form.getmoney = val
         }
       },
-      toggleType(val) {
+      bindBlurRemark(e) {
+        let remark = e.detail.value.trim()
+        if (remark !== '') {
+          remark = remark.replace(/<\/?[^>]*>/g, '')
+        }
+        this.form.remark = remark
+      },
+      toggleType(val) { // 切换记账方式
         if (val === '1') {
           this.bill.typeId = val
+          this.cateList = payCateList
         } else {
           this.bill.typeId = val
+          this.cateList = incomeCateList
         }
         console.log(val)
+      },
+      getCate(item) {
+        this.form.cateType = item.type
+        this.form.cateId = item.cateId
+        this.form.title = item.cateName
       },
       showTitle(msg) {
         this.$parent.showGlobalToast(msg)

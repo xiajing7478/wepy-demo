@@ -29,8 +29,8 @@ setStore(store)
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/bill/add',
       'pages/bill',
+      'pages/bill/add',
       'pages/information/newFlash',
       'pages/information/information',
       'pages/information/member',
@@ -124,7 +124,6 @@ export default class extends wepy.app {
   }
   // global toast
   showGlobalToast(msg) {
-    debugger
     wx.showToast({
       title: msg
     })
