@@ -1,0 +1,95 @@
+<style lang="scss" scoped>
+  .rowData {
+    .header {
+      height: 60rpx;
+      line-height: 60rpx;
+      padding: 0 30rpx;
+      display: flex;
+      color: #666;
+      border-bottom: 1px solid #e8e8e8;
+      justify-content: space-between;
+      .left {
+        display: flex;
+        justify-content: space-between;
+        text:nth-of-type(1) {
+          padding-right: 30rpx;
+        }
+      }
+      .right {
+        display: flex;
+        justify-content: space-between;
+        text:nth-of-type(1) {
+          padding-right: 30rpx;
+        }
+      }
+    }
+    .content {
+      .detail {
+        padding: 20rpx;
+        display:flex;
+        line-height:60rpx;
+        border-bottom: 1px solid #e8e8e8;
+        i {
+          color: #8ac1f4;
+          padding-right: 8rpx;
+          width: 36rpx;
+        }
+        .title {
+          flex: 1;
+        }
+        .description {
+          color:#666;
+          font-size: 22rpx;
+          margin-right: 30rpx;
+          font-style: italic;
+        }
+        .mount {
+          color:#EE6363;
+        }
+        .getmount {
+          color:#76EE00;
+        }
+      }
+    }
+  }
+</style>
+<template>
+  <view class="rowData">
+    <view class="header">
+      <view class="left">
+        <text>{{item.day}}</text>
+        <text>{{item.week}}</text>
+      </view>
+      <view class="right">
+        <text>收入: {{item.income}}</text>
+        <text>支出: {{item.pay}}</text>
+      </view>
+    </view>
+    <view class="content">
+      <repeat for="{{item.list}}" key="index" index="index" item="obj">
+        <view class="detail">
+          <i class="iconfont icon-{{ obj.cateType }}"></i>
+          <text class="title">{{obj.title}}</text>
+          <text class="description" wx:if="{{obj.remark}}">备注:{{ obj.remark }}</text>
+          <text class="mount" wx:if="{{obj.money}}">{{'-'+ obj.money }}</text>
+          <text class="getmount" wx:if="{{obj.getmoney}}">{{'+'+ obj.getmoney }}</text>
+        </view>
+      </repeat>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class RowData extends wepy.component {
+    props = {
+      item: {
+        type: Object,
+        default: {}
+      }
+    }
+    data = {}
+    onLoad() {
+      console.log('a', this.item)
+    }
+  }
+</script>

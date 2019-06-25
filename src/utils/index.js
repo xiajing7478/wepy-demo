@@ -37,8 +37,14 @@ const isNumber = (num) => {
   return regExp.test(num)
 }
 
+const getWeek = (date) => {
+  const weeks = ['日', '一', '二', '三', '四', '五', '六']
+  return '星期' + weeks[new Date(date).getDay()]
+}
+
 module.exports = {
   getSystem,
   formatTime,
-  isNumber
+  isNumber,
+  getWeek
 }

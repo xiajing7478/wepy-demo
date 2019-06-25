@@ -39,7 +39,7 @@
 </style>
 <template>
   <view class="bill-wrap">
-    <view class="bill-summary">
+    <view class="bill-summary" id="topInfo">
       <view class="calender">
         <text>{{calenderArr[0]}} 年</text>
         <picker mode="date" value="{{date}}" fields="month" start="2015-01-01" end="2015-01-01"
@@ -56,11 +56,20 @@
       </view>
       <view class="output">
         <text>支出</text>
-        <text class="bold m_padTop size">{{ moneyStat.output }}元</text>
+        <text class="bold m_padTop size">{{ moneyStat.pay }}元</text>
       </view>
     </view>
     <view class="bill-detail">
-
+      <scroll-view scroll-y style="height:{{ scrollHeight }}px">
+        <view class="list-wrap" wx:if="{{detailList.list.length > 0}}">
+          <repeat for="{{detailList.list}}" key="index" index="index" item="item">
+            <rowData :item="item"></rowData>
+          </repeat>
+        </view>
+        <view wx:else>
+          <image style="width: 100%; height: 100%;" src="../images/nodata.png" alt="pic"></image>
+        </view>
+      </scroll-view>
     </view>
     <view class="bill-plus" @tap="gotoUrl('./bill/add')">
       <text>记</text>
@@ -68,19 +77,26 @@
   </view>
 </template>
 <script>
-  // getSystem
-  import { formatTime } from '@/utils'
+  import { formatTime, getWeek, getSystem } from '@/utils'
   import wepy from 'wepy'
+  import RowData from '@/components/bill/rowData'
   export default class Bill extends wepy.page {
     config = {
       navigationBarTitleText: '账本'
     }
+    components = {
+      rowData: RowData
+    }
     data = {
       calenderArr: [], // 年月
       moneyStat: {
-        income: 0,
-        output: 0
-      }
+        income: 0, // 收入
+        pay: 0 // 支出
+      },
+      detailList: {
+        list: []
+      },
+      scrollHeight: 0
     }
     methods = {
       onDateChange(e) {
@@ -95,6 +111,44 @@
         console.log('账单页面激活...............')
         const forYearData = this.methods.getBillDatas(storageData)
         console.log(forYearData)
+        this.detailList = forYearData[`${this.calenderArr[0]}-${this.calenderArr[1]}`]
+        console.log(this.detailList)
+        let arr
+        if (!this.detailList) {
+          this.moneyStat = {
+            income: '0',
+            psy: '0'
+          }
+          this.detailList = {list: []}
+          return false
+        }
+        arr = this.detailList.list.slice()
+        console.log(arr)
+        let totalSum = {}
+        if (this.detailList.list && this.detailList.list.length > 0) {
+          arr.map((v, i) => {
+            const getDay = `${v.getDate[0]}-${v.getDate[1]}-${v.getDate[2]}`
+            if (!totalSum[getDay]) {
+              totalSum[getDay] = {
+                day: getDay,
+                income: null,
+                pay: null,
+                list: [],
+                week: getWeek(getDay)
+              }
+            }
+            let adds = v.getmoney ? v.getmoney : 0
+            let calcs = v.money ? v.money : 0
+            totalSum[getDay].income = totalSum[getDay].income + adds
+            totalSum[getDay].pay = totalSum[getDay].pay + calcs
+            totalSum[getDay].list.push(v)
+          })
+        }
+        this.detailList.list = []
+        for (let i in totalSum) {
+          this.detailList.list.push(totalSum[i])
+        }
+        this.moneyStat = this.detailList
       },
       getBillDatas(lists) {
         let total = {}
@@ -120,10 +174,15 @@
       }
     }
     onLoad() {
+      const sys = getSystem()
+      wx.createSelectorQuery().select('#topInfo').boundingClientRect(rect => {
+        let h = rect.height
+        h = h > 0 ? h : 70
+        this.scrollHeight = sys.wh - h
+        this.$apply()
+      }).exec()
       this.calenderArr = formatTime(new Date()).slice(0, 2)
-      // const res = getSystem()
       this.$apply()
-      // console.log(res)
     }
     onShow() {
       this.methods.getBillDeatailList.call(this)
