@@ -93,7 +93,7 @@
       console.log('Member onLoad......')
     }
     data = {
-      asset: 0,
+      asset: 0, // 资产
       hours: 0,
       userInfo: {},
       userList: [
@@ -108,17 +108,34 @@
     }
     methods = {
       goUrl(url) {
-        // console.log(this)
-        // debugger
         this.$navigate(url)
+      },
+      getAssetMoney() {
+        const lists = wx.getStorageSync('payList')
+        if (lists) {
+          let get = 0
+          let out = 0
+          lists.map(v => {
+            if (v.getmoney) {
+              get += parseFloat(v.getmoney)
+            }
+            if (v.money) {
+              out += parseFloat(v.money)
+            }
+          })
+          this.asset = get - out
+        }
       }
     }
     onShow() {
+      // 用户信息
       this.$parent.getUserInfo(res => {
         this.userInfo = res
         console.log(this.userInfo)
         this.$apply()
       })
+      // 资产
+      this.methods.getAssetMoney.call(this)
     }
   }
 </script>
