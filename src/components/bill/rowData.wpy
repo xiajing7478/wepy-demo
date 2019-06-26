@@ -89,7 +89,6 @@
     }
     data = {}
     onLoad() {
-      console.log('a', this.item)
     }
   }
 </script>

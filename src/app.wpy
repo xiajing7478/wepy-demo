@@ -125,7 +125,8 @@ export default class extends wepy.app {
   // global toast
   showGlobalToast(msg) {
     wx.showToast({
-      title: msg
+      title: msg,
+      icon: 'none'
     })
   }
 }

@@ -94,7 +94,7 @@
                placeholder="请输入金额" value="{{bill.typeId === '1' ? form.money : form.getmoney}}"/>
       </view>
       <view class="remark">
-        <input @blur="bindBlurRemark" class="line" type="text" placeholder="请输入备注信息"/>
+        <input @blur="bindBlurRemark" class="line" type="text"  value="{{form.remark}}" placeholder="请输入备注信息"/>
       </view>
       <view class="btnGroup">
         <view @tap="onAdd" class="btnOk"><text>确定</text></view>
@@ -141,11 +141,11 @@
           this.methods.showTitle.call(this, '请输入正确的金额')
           return false
         }
-        // if (parseFloat(this.mount) <= 0) {
-        //   const title = this.bill.typeId === '1' ? '没花钱不能记哦' : '没收钱不能记哦'
-        //   this.methods.showTitle.call(this, title)
-        //   return false
-        // }
+        if (parseFloat(this.mount) <= 0) {
+          const title = this.bill.typeId === '1' ? '没花钱不能记哦' : '没收钱不能记哦'
+          this.methods.showTitle.call(this, title)
+          return false
+        }
         if (!this.form.cateType) {
           this.methods.showTitle.call(this, '不要忘记消费类别')
           return false
@@ -159,9 +159,8 @@
         }
         this.form.getDate = formatTime(new Date()).slice(0, 3)
         getForm.push(this.form)
-        // let self = this
         try {
-          const res = wx.getStorageSync('payList')
+          let res = wx.getStorageSync('payList')
           if (res) {
             res.push(this.form)
             wx.setStorage({
@@ -173,14 +172,23 @@
               key: 'payList',
               data: getForm
             })
-            this.methods.showTitle(this, '已保存这笔啦')
           }
+          this.methods.showTitle.call(this, '已保存这笔啦')
+          this.methods.resetData.call(this)
+          this.$apply()
         } catch (e) {
           this.methods.showTitle.call(this, '程序出错啦')
         }
       },
       onCancel() {
 
+      },
+      resetData() {
+        for (let i in this.form) {
+          if (this.form[i]) {
+            this.form[i] = ''
+          }
+        }
       },
       bindBlurMoney(e) {
         const val = this.mount = e.detail.value.trim()
@@ -206,7 +214,13 @@
           this.bill.typeId = val
           this.cateList = incomeCateList
         }
-        console.log(val)
+        this.methods.clearData.call(this)
+      },
+      clearData() {
+        this.form.cateType = ''
+        this.form.cateId = ''
+        this.form.money = null
+        this.form.remark = ''
       },
       getCate(item) {
         this.form.cateType = item.type

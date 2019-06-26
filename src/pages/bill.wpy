@@ -66,7 +66,7 @@
             <rowData :item="item"></rowData>
           </repeat>
         </view>
-        <view wx:else>
+        <view wx:else style="height: 100%;">
           <image style="width: 100%; height: 100%;" src="../images/nodata.png" alt="pic"></image>
         </view>
       </scroll-view>
@@ -88,7 +88,7 @@
       rowData: RowData
     }
     data = {
-      calenderArr: [], // 年月
+      calenderArr: ['2019', '06'], // 年月
       moneyStat: {
         income: 0, // 收入
         pay: 0 // 支出
@@ -102,28 +102,28 @@
       onDateChange(e) {
         this.calenderArr = e.detail.value.split('-')
         this.$apply()
+        this.methods.getBillDeatailList.call(this)
       },
       getBillDeatailList() {
         const storageData = wx.getStorageSync('payList')
         if (!storageData) {
           return
         }
-        console.log('账单页面激活...............')
         const forYearData = this.methods.getBillDatas(storageData)
-        console.log(forYearData)
+        // console.log(forYearData)
         this.detailList = forYearData[`${this.calenderArr[0]}-${this.calenderArr[1]}`]
-        console.log(this.detailList)
+        // console.log(this.detailList)
         let arr
         if (!this.detailList) {
           this.moneyStat = {
             income: '0',
-            psy: '0'
+            pay: '0'
           }
           this.detailList = {list: []}
           return false
         }
         arr = this.detailList.list.slice()
-        console.log(arr)
+        // console.log(arr)
         let totalSum = {}
         if (this.detailList.list && this.detailList.list.length > 0) {
           arr.map((v, i) => {
