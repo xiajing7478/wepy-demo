@@ -1,0 +1,14 @@
+<style lang="scss" scoped>
+  .BillStat-wrap {
+
+  }
+</style>
+<template>
+  <view class="BillStat-wrap">BillStat</view>
+</template>
+<script>
+  import wepy from 'wepy'
+  export default class BillStat extends wepy.page {
+
+  }
+</script>

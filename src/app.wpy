@@ -34,7 +34,8 @@ export default class extends wepy.app {
       'pages/information/newFlash',
       'pages/information/information',
       'pages/information/member',
-      'pages/me/about'
+      'pages/me/about',
+      'pages/me/billStat'
     ],
     window: {
       backgroundTextStyle: 'light',

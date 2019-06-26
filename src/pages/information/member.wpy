@@ -98,7 +98,7 @@
       userInfo: {},
       userList: [
         { name: '计划统计', path: './me/planT', icon: 'icon-jihua' },
-        { name: '账本统计', path: './me/billT', icon: 'icon-zhangben' },
+        { name: '账本统计', path: '../me/billStat', icon: 'icon-zhangben' },
         { name: '开心猫', path: './index/index', icon: 'icon-lanmao' },
         { name: '测试猫', path: './testYun/index', icon: 'icon-fenxiang' },
         { name: '意见反馈', path: 'contact', icon: 'icon-yijianfankui' },
